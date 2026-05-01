@@ -3951,20 +3951,23 @@
 
   // ランキングを取得 (Top 20)
   async function fetchRanking(limit = 20) {
-    if (!isFirebaseConfigured()) return [];
+    if (!isFirebaseConfigured()) {
+      throw new Error('Firebaseが設定されていません');
+    }
     const ok = await initFirebase();
-    if (!ok) return [];
+    if (!ok) throw new Error('Firebase接続に失敗しました');
 
-    const { ref, query, orderByChild, limitToLast, get } = window._fb;
-    const q = query(ref(fbDb, 'rankings'), orderByChild('score'), limitToLast(limit));
-    const snapshot = await get(q);
+    const { ref, get } = window._fb;
+    // Use simple get() without orderByChild to avoid needing a database index.
+    // Sort client-side instead.
+    const snapshot = await get(ref(fbDb, 'rankings'));
     if (!snapshot.exists()) return [];
     const arr = [];
     snapshot.forEach(child => {
       arr.push({ id: child.key, ...child.val() });
     });
-    arr.sort((a, b) => b.score - a.score);
-    return arr;
+    arr.sort((a, b) => (b.score || 0) - (a.score || 0));
+    return arr.slice(0, limit);
   }
 
   /* === Ranking UI === */
@@ -4042,8 +4045,34 @@
           </div>`;
       }).join('');
     } catch (err) {
+      console.error('[ranking] fetch error:', err);
       const body = document.getElementById('rankingBody');
-      body.innerHTML = '<div class="ranking-empty">ランキングの取得に失敗しました</div>';
+      const errMsg = err && err.message ? err.message : '不明なエラー';
+      const isPermission = /permission|denied/i.test(errMsg);
+      body.innerHTML = `
+        <div class="ranking-empty" style="text-align:left; line-height:1.7;">
+          <div style="color:#f87171; font-weight:bold; margin-bottom:8px;">⚠️ ランキングの取得に失敗しました</div>
+          ${isPermission ? `
+            <div style="color:#e8c896; font-size:0.85rem; margin-bottom:8px;">
+              <b>原因</b>: Firebaseの<b>読み取り権限</b>が許可されていません。
+            </div>
+            <div style="color:#d4a04e; font-size:0.78rem;">
+              対処：Firebase Console → Realtime Database → ルール で以下を設定し公開：<br>
+              <code style="display:block; background:#1a0f08; padding:8px; margin-top:6px; border-radius:4px; color:#f4c95d; font-size:0.7rem; white-space:pre-wrap;">{
+  "rules": {
+    "rankings": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}</code>
+            </div>
+          ` : `
+            <div style="color:#d4a04e; font-size:0.78rem;">
+              詳細: ${escapeHtml(errMsg)}
+            </div>
+          `}
+        </div>`;
     }
   }
   window.showRanking = showRanking;
