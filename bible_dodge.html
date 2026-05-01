@@ -727,6 +727,787 @@
   }
 
 
+
+
+  /* === MODE SELECTION === */
+  .mode-select {
+    margin: 8px 0 4px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .mode-select-label {
+    text-align: center;
+    color: #f4c95d;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  }
+  .mode-cards {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .mode-card {
+    flex: 1;
+    background: linear-gradient(180deg, rgba(58,40,24,0.95) 0%, rgba(26,15,8,0.95) 100%);
+    border: 2px solid #8b6a2a;
+    border-radius: 12px;
+    padding: 16px 10px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    color: #f4e4c1;
+    text-align: center;
+    position: relative;
+    transition: all 0.15s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .mode-card:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+  .mode-card.story-mode {
+    border-color: #f4c95d;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 16px rgba(244,201,93,0.25);
+    animation: storyCardGlow 2.4s ease-in-out infinite;
+  }
+  @keyframes storyCardGlow {
+    0%,100% { box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 16px rgba(244,201,93,0.25); }
+    50%     { box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 24px rgba(244,201,93,0.6); }
+  }
+  .mode-card.battle-mode {
+    border-color: #8b6a2a;
+  }
+  .mode-icon {
+    font-size: 2.4rem;
+    line-height: 1;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+  }
+  .mode-card.story-mode .mode-icon {
+    text-shadow: 0 0 16px rgba(244,201,93,0.6);
+  }
+  .mode-name {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #f4c95d;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  }
+  .mode-card.battle-mode .mode-name {
+    color: #d4a04e;
+  }
+  .mode-desc {
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: #e8c896;
+    opacity: 0.9;
+  }
+  .mode-tag {
+    position: absolute;
+    top: -8px; right: 8px;
+    background: linear-gradient(180deg, #f4c95d 0%, #d4a04e 100%);
+    color: #1a0f08;
+    font-size: 0.62rem;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 8px;
+    letter-spacing: 0.15em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  }
+
+
+
+  /* === Typewriter cursor === */
+  .typewriter-cursor {
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    background: #f4c95d;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursorBlink 0.7s step-end infinite;
+  }
+  @keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* === Skip indicator (▼) === */
+  .typewriter-done {
+    display: inline-block;
+    color: #f4c95d;
+    font-size: 0.8em;
+    margin-left: 6px;
+    animation: bounce 1s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+  }
+
+  /* === Character emotion animations === */
+  .story-char.emotion-idle img { animation: charIdle 4s ease-in-out infinite; }
+  .story-char.emotion-gentle img { animation: charGentle 3.5s ease-in-out infinite; }
+  .story-char.emotion-angry img { animation: charAngry 0.4s ease-in-out infinite; }
+  .story-char.emotion-shocked img { animation: charShocked 0.6s ease-out forwards; }
+  .story-char.emotion-determined img { animation: charDetermined 2.5s ease-in-out infinite; }
+  .story-char.emotion-commanding img { animation: charCommanding 3s ease-in-out infinite; }
+
+  @keyframes charIdle {
+    0%,100% { transform: scale(var(--char-scale,1)) translateY(0); }
+    50% { transform: scale(var(--char-scale,1)) translateY(-3px); }
+  }
+  @keyframes charGentle {
+    0%,100% { transform: scale(var(--char-scale,1)) translateY(0) rotate(0); }
+    50% { transform: scale(var(--char-scale,1)) translateY(-4px) rotate(0.5deg); }
+  }
+  @keyframes charAngry {
+    0%,100% { transform: scale(var(--char-scale,1)) translateX(0); }
+    25% { transform: scale(var(--char-scale,1)) translateX(-3px); }
+    75% { transform: scale(var(--char-scale,1)) translateX(3px); }
+  }
+  @keyframes charShocked {
+    0% { transform: scale(var(--char-scale,1)) translateY(0); }
+    20% { transform: scale(calc(var(--char-scale,1) * 0.95)) translateY(8px); }
+    40% { transform: scale(calc(var(--char-scale,1) * 0.97)) translateY(4px); }
+    100% { transform: scale(var(--char-scale,1)) translateY(0); }
+  }
+  @keyframes charDetermined {
+    0%,100% { transform: scale(var(--char-scale,1)) translateY(0); filter: brightness(1) drop-shadow(4px 8px 12px rgba(0,0,0,0.7)); }
+    50% { transform: scale(calc(var(--char-scale,1) * 1.02)) translateY(-2px); filter: brightness(1.1) drop-shadow(4px 8px 16px rgba(244,201,93,0.4)); }
+  }
+  @keyframes charCommanding {
+    0%,100% { transform: scale(var(--char-scale,1)) translateY(0) rotate(0); }
+    50% { transform: scale(calc(var(--char-scale,1) * 1.01)) translateY(-2px) rotate(-0.5deg); }
+  }
+
+  /* Speaking pulse - applied while character is talking */
+  .story-char.speaking::before {
+    content: "";
+    position: absolute;
+    bottom: 50%; left: 50%;
+    width: 80%; height: 30%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(244,201,93,0.3), transparent 70%);
+    filter: blur(10px);
+    animation: speakingGlow 0.8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+  @keyframes speakingGlow {
+    0%,100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+  }
+
+  /* === STORY MODE V2 (Image-based) === */
+  .story-screen-v2 {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #f4e4c1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .story-bg-overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(26,15,8,0.5) 0%, rgba(26,15,8,0.25) 30%, rgba(26,15,8,0.7) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .story-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 14px 14px;
+    cursor: pointer;
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .story-header {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .story-screen-v2 .story-chapter {
+    color: #f4c95d;
+    font-size: 0.72rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.95), 0 0 8px rgba(0,0,0,0.8);
+    background: rgba(26,15,8,0.6);
+    display: inline-block;
+    padding: 3px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(244,201,93,0.4);
+  }
+  .story-screen-v2 .story-title {
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    color: #fff6d5;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    margin: 8px 0 4px;
+    text-shadow: 2px 2px 0 #1a0f08, 0 4px 16px rgba(0,0,0,1), 0 0 20px rgba(244,201,93,0.4);
+    line-height: 1.3;
+  }
+
+  /* Characters area */
+  .story-characters {
+    position: relative;
+    flex: 1;
+    min-height: 280px;
+    display: flex;
+    align-items: flex-end;
+    margin: 8px 0;
+  }
+  .story-char {
+    position: absolute;
+    bottom: 0;
+    height: 92%;
+    max-height: 320px;
+    pointer-events: none;
+    animation: charSlideIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+    transform-origin: bottom center;
+  }
+  .story-char img {
+    height: 100%;
+    width: auto;
+    display: block;
+    transform: scale(var(--char-scale, 1));
+    transform-origin: bottom center;
+    filter: drop-shadow(4px 8px 12px rgba(0,0,0,0.7));
+  }
+  .story-char.left {
+    left: 0;
+    animation-name: charSlideInLeft;
+  }
+  .story-char.right {
+    right: 0;
+    animation-name: charSlideInRight;
+  }
+  .story-char.center {
+    left: 50%;
+    transform: translateX(-50%);
+    animation-name: charFadeIn;
+  }
+  @keyframes charSlideInLeft {
+    0%   { opacity: 0; transform: translateX(-30px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes charSlideInRight {
+    0%   { opacity: 0; transform: translateX(30px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes charFadeIn {
+    0%   { opacity: 0; transform: translateX(-50%) scale(0.95); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1); }
+  }
+
+  /* Dialogue cut-in */
+  .story-dialogue {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 0 4px;
+    margin: 4px 0 8px;
+    z-index: 5;
+    animation: dialogueIn 0.4s 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  }
+  .story-dialogue.right { flex-direction: row-reverse; }
+  @keyframes dialogueIn {
+    0%   { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .story-portrait {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 3px solid #f4c95d;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #1a0f08;
+    box-shadow: 0 0 16px rgba(244,201,93,0.6), 0 4px 12px rgba(0,0,0,0.7);
+    position: relative;
+  }
+  .story-portrait img {
+    width: 200%;
+    height: auto;
+    position: absolute;
+    top: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .story-bubble {
+    flex: 1;
+    background: rgba(26,15,8,0.95);
+    border: 2px solid #f4c95d;
+    border-radius: 14px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.7), 0 0 20px rgba(244,201,93,0.2);
+    position: relative;
+    min-width: 0;
+  }
+  .story-dialogue.left .story-bubble::before {
+    content: "";
+    position: absolute;
+    left: -8px; bottom: 16px;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 6px 8px 6px 0;
+    border-color: transparent #f4c95d transparent transparent;
+  }
+  .story-dialogue.right .story-bubble::before {
+    content: "";
+    position: absolute;
+    right: -8px; bottom: 16px;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 8px;
+    border-color: transparent transparent transparent #f4c95d;
+  }
+  .story-speaker {
+    color: #f4c95d;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .story-line {
+    color: #f4e4c1;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  }
+
+  /* Narration box */
+  .story-narration {
+    background: rgba(26,15,8,0.92);
+    border: 2px solid #8b6a2a;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: #f4e4c1;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+    text-align: justify;
+    margin-bottom: 8px;
+    animation: dialogueIn 0.4s 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  }
+  .story-narration b { color: #f4c95d; }
+  .story-narration .red { color: #ff8a8a; font-weight: bold; }
+  .story-narration .small { font-size: 0.85em; color: #d4a04e; font-style: italic; display: block; margin-top: 4px; }
+
+  /* Progress dots & nav (reuse existing) */
+  .story-screen-v2 .story-progress {
+    display: flex; gap: 5px; justify-content: center;
+    margin: 8px 0;
+  }
+  .story-screen-v2 .story-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(139,106,42,0.4);
+    border: 1px solid #8b6a2a;
+    transition: all 0.3s;
+  }
+  .story-screen-v2 .story-dot.active {
+    background: #f4c95d;
+    box-shadow: 0 0 8px rgba(244,201,93,0.8);
+    transform: scale(1.3);
+  }
+  .story-screen-v2 .story-dot.done { background: #8b6a2a; }
+  .story-screen-v2 .story-nav {
+    display: flex; gap: 10px; justify-content: center; align-items: center;
+  }
+
+  /* === STORY MODE === */
+  .story-screen {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0a0604 0%, #1a0f08 50%, #2a1810 100%);
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    color: #f4e4c1;
+    padding: 20px 16px;
+  }
+
+  /* Atmospheric particles */
+  .story-screen::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, rgba(244,201,93,0.4), transparent),
+      radial-gradient(2px 2px at 70% 60%, rgba(244,201,93,0.3), transparent),
+      radial-gradient(1px 1px at 40% 80%, rgba(244,201,93,0.5), transparent),
+      radial-gradient(1px 1px at 85% 15%, rgba(244,201,93,0.3), transparent);
+    background-size: 350px 350px, 280px 280px, 220px 220px, 180px 180px;
+    animation: dustDrift 18s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  @keyframes dustDrift {
+    0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+    100% { background-position: 350px -350px, -280px 280px, 220px -220px, -180px 180px; }
+  }
+
+  .story-page {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    max-width: 480px; margin: 0 auto;
+    width: 100%;
+    z-index: 2;
+    position: relative;
+  }
+
+  .story-chapter {
+    color: #d4a04e;
+    font-size: 0.78rem;
+    letter-spacing: 0.4em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  }
+
+  .story-title {
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    color: #f4c95d;
+    font-size: 1.55rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    text-align: center;
+    text-shadow: 2px 2px 0 #1a0f08, 0 4px 12px rgba(0,0,0,0.9), 0 0 24px rgba(244,201,93,0.3);
+    line-height: 1.4;
+  }
+
+  /* Story illustration area */
+  .story-art {
+    width: 100%;
+    height: 220px;
+    margin: 8px 0 16px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #2a1810 0%, #1a0f08 100%);
+    border: 2px solid #8b6a2a;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.7), inset 0 0 30px rgba(0,0,0,0.5);
+    animation: storyArtFadeIn 0.8s ease-out;
+  }
+  @keyframes storyArtFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .story-art svg { width: 100%; height: 100%; display: block; }
+
+  /* Story narration text */
+  .story-text {
+    background: rgba(26,15,8,0.92);
+    border: 2px solid #8b6a2a;
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-size: 0.95rem;
+    line-height: 2;
+    color: #f4e4c1;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+    animation: storyTextSlideIn 0.6s 0.3s ease-out backwards;
+    text-align: justify;
+    text-justify: inter-character;
+  }
+  .story-text b {
+    color: #f4c95d;
+    text-shadow: 0 0 8px rgba(244,201,93,0.4);
+    font-weight: bold;
+    letter-spacing: 0.02em;
+  }
+  .story-text .red { color: #ff8a8a; font-weight: bold; }
+  .story-text .small { font-size: 0.88em; color: #d4a04e; font-style: italic; display: block; margin-top: 6px; }
+  @keyframes storyTextSlideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Story progress dots */
+  .story-progress {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin: 14px 0 8px;
+  }
+  .story-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(139,106,42,0.4);
+    border: 1px solid #8b6a2a;
+    transition: all 0.3s;
+  }
+  .story-dot.active {
+    background: #f4c95d;
+    box-shadow: 0 0 8px rgba(244,201,93,0.8);
+    transform: scale(1.3);
+  }
+  .story-dot.done { background: #8b6a2a; }
+
+  /* Navigation buttons */
+  .story-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 460px;
+  }
+  .story-btn {
+    background: linear-gradient(180deg, #8b6a2a 0%, #4a3514 100%);
+    border: 2px solid #d4a04e;
+    color: #f4e4c1;
+    padding: 10px 24px;
+    border-radius: 24px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #2a1810, 0 6px 12px rgba(0,0,0,0.5);
+    transition: transform 0.1s;
+    flex: 1;
+  }
+  .story-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #2a1810; }
+  .story-btn.primary {
+    background: linear-gradient(180deg, #d4a04e 0%, #8b6a2a 100%);
+    border-color: #f4c95d;
+    color: #1a0f08;
+    flex: 1.5;
+  }
+  .story-btn.primary.final {
+    animation: finalBtnGlow 1.6s ease-in-out infinite;
+  }
+  @keyframes finalBtnGlow {
+    0%,100% { box-shadow: 0 3px 0 #2a1810, 0 6px 16px rgba(244,201,93,0.5); }
+    50%     { box-shadow: 0 3px 0 #2a1810, 0 6px 28px rgba(244,201,93,0.95); }
+  }
+  .story-btn.skip {
+    background: transparent;
+    border-color: #8b6a2a;
+    color: #8b6a2a;
+    font-size: 0.78rem;
+    padding: 8px 16px;
+    box-shadow: none;
+    flex: 0.6;
+  }
+  .story-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* === Ranking submission card === */
+  .ranking-submit {
+    background: linear-gradient(180deg, rgba(41,23,10,0.95) 0%, rgba(26,15,8,0.95) 100%);
+    border: 2px solid #f4c95d;
+    border-radius: 12px;
+    padding: 18px 18px;
+    max-width: 360px;
+    width: 100%;
+    margin-top: 8px;
+    box-shadow: 0 4px 24px rgba(244,201,93,0.2), 0 4px 12px rgba(0,0,0,0.6);
+  }
+  .ranking-submit-title {
+    color: #f4c95d;
+    font-size: 0.95rem;
+    text-align: center;
+    letter-spacing: 0.1em;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  .ranking-submit-sub {
+    color: #d4a04e;
+    font-size: 0.75rem;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .ranking-score-display {
+    text-align: center;
+    color: #fff6d5;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+  .ranking-score-display .score-num {
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    color: #f4c95d;
+    font-weight: bold;
+    text-shadow: 0 0 12px rgba(244,201,93,0.5);
+    margin: 0 4px;
+  }
+  .ranking-input {
+    width: 100%;
+    background: #1a0f08;
+    border: 2px solid #8b6a2a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #f4e4c1;
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .ranking-input:focus {
+    border-color: #f4c95d;
+    box-shadow: 0 0 12px rgba(244,201,93,0.4);
+  }
+  .ranking-input::placeholder { color: #8b6a2a; }
+  .ranking-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .ranking-actions .main-btn {
+    font-size: 0.95rem;
+    padding: 10px 28px;
+  }
+  .ranking-status {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    line-height: 1.5;
+    min-height: 1em;
+  }
+  .ranking-skip {
+    background: none;
+    border: none;
+    color: #8b6a2a;
+    font-size: 0.78rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-family: inherit;
+  }
+
+  /* === Ranking modal overlay === */
+  .ranking-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.85);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+  }
+  .ranking-modal {
+    background: linear-gradient(180deg, #2a1810 0%, #1a0f08 100%);
+    border: 2px solid #f4c95d;
+    border-radius: 14px;
+    padding: 24px 18px 18px;
+    max-width: 440px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 0 40px rgba(244,201,93,0.4), 0 8px 30px rgba(0,0,0,0.9);
+  }
+  .ranking-close {
+    position: absolute; top: 8px; right: 12px;
+    background: none; border: none;
+    color: #f4c95d; font-size: 1.8rem;
+    cursor: pointer; line-height: 1;
+    padding: 0; width: 32px; height: 32px;
+  }
+  .ranking-close:hover { color: #fff6d5; }
+  .ranking-title {
+    text-align: center;
+    color: #f4c95d;
+    font-size: 1.3rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+    text-shadow: 0 0 16px rgba(244,201,93,0.5);
+  }
+  .ranking-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ranking-loading, .ranking-empty {
+    text-align: center; color: #d4a04e;
+    padding: 30px 10px;
+    font-style: italic;
+  }
+  .ranking-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto auto;
+    grid-template-areas: "pos name rank score" "pos name defeated defeated";
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: center;
+    padding: 8px 10px;
+    background: rgba(26,15,8,0.6);
+    border-left: 3px solid #8b6a2a;
+    border-radius: 6px;
+  }
+  .ranking-row.top3 {
+    background: linear-gradient(90deg, rgba(244,201,93,0.18) 0%, rgba(26,15,8,0.6) 50%);
+    border-left: 3px solid #f4c95d;
+  }
+  .ranking-pos {
+    grid-area: pos;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    color: #d4a04e;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  .ranking-row.top3 .ranking-pos { font-size: 1.4rem; }
+  .ranking-name {
+    grid-area: name;
+    color: #f4e4c1;
+    font-weight: bold;
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ranking-rank-letter {
+    grid-area: rank;
+    font-family: 'Georgia', serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 1.4rem;
+    line-height: 1;
+    text-shadow: 0 0 8px currentColor;
+  }
+  .ranking-score {
+    grid-area: score;
+    color: #f4c95d;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: right;
+    min-width: 60px;
+  }
+  .ranking-defeated {
+    grid-area: defeated;
+    color: #d4a04e;
+    font-size: 0.7rem;
+    text-align: right;
+    grid-column: 3 / 5;
+  }
+
   .next-battle-warning {
     background: linear-gradient(180deg, rgba(139,21,21,0.35) 0%, rgba(60,10,10,0.5) 100%);
     border: 2px solid #dc2626;
@@ -1137,6 +1918,31 @@
       const g2 = ctx.createGain(); g2.gain.setValueAtTime(0.18, t+0.15); g2.gain.exponentialRampToValueAtTime(0.001, t+0.5);
       o.connect(g2).connect(ctx.destination); o.start(t+0.15); o.stop(t+0.55);
     }); },
+    textBlip(pitch = 1.0) { this.play(ctx => {
+      const t = ctx.currentTime;
+      const o = ctx.createOscillator(); o.type = 'sine';
+      o.frequency.setValueAtTime(800 * pitch, t);
+      o.frequency.exponentialRampToValueAtTime(600 * pitch, t + 0.04);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.05, t + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      o.connect(g).connect(ctx.destination);
+      o.start(t); o.stop(t + 0.06);
+    }); },
+    pageTurn() { this.play(ctx => {
+      const t = ctx.currentTime, bs = ctx.sampleRate * 0.2;
+      const buf = ctx.createBuffer(1, bs, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < bs; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bs, 1.5);
+      const s = ctx.createBufferSource(); s.buffer = buf;
+      const f = ctx.createBiquadFilter(); f.type = 'highpass';
+      f.frequency.setValueAtTime(2000, t);
+      f.frequency.exponentialRampToValueAtTime(500, t + 0.2); f.Q.value = 2;
+      const g = ctx.createGain(); g.gain.value = 0.15;
+      s.connect(f).connect(g).connect(ctx.destination);
+      s.start(t); s.stop(t + 0.25);
+    }); },
     thunder() { this.play(ctx => {
       const t = ctx.currentTime;
       // Huge low rumble
@@ -1394,6 +2200,7 @@
 
   function render() {
     if (state.phase === 'title') { renderTitle(); if (sound.enabled) music.playTrack('title'); }
+    else if (state.phase === 'story') { renderStory(); if (sound.enabled) music.playTrack('title'); }
     else if (state.phase === 'gameover') renderGameOver();
     else { renderBattle(); if (sound.enabled) music.playTrack('battle'); }
   }
@@ -1503,7 +2310,22 @@
           ・${t('rule4_critMiss')} <span class="crit">CRITICAL ${DAMAGE_CRITICAL}</span> ${t('rule4_critDmg')}<br>
           ・${t('rule5')}
         </div>
-        <button class="main-btn" onclick="startGame()">${t('startBtn')}</button>
+        <div class="mode-select">
+          <div class="mode-select-label">⚜️ モードを選んでください ⚜️</div>
+          <div class="mode-cards">
+            <button class="mode-card story-mode" onclick="showStory()">
+              <div class="mode-icon">📖</div>
+              <div class="mode-name">ストーリーモード</div>
+              <div class="mode-desc">ダビデとゴリアテが<br>戦うまでの物語を<br>体験してから戦う</div>
+              <div class="mode-tag">推奨</div>
+            </button>
+            <button class="mode-card battle-mode" onclick="startGame()">
+              <div class="mode-icon">⚔️</div>
+              <div class="mode-name">バトルモード</div>
+              <div class="mode-desc">物語をスキップして<br>すぐに戦闘開始<br>経験者向け</div>
+            </button>
+          </div>
+        </div>
         <div class="title-ball"></div>
       </div>`;
   }
@@ -2355,12 +3177,594 @@
       </div>`;
   }
 
-  function returnToTitle() { state.phase = 'title'; render(); }
+  function returnToTitle() {
+    scoreSubmitted = false;
+    state.phase = 'title';
+    render();
+  }
 
   window.startGame = startGame;
   window.playerThrow = playerThrow;
   window.playerJudge = playerJudge;
   window.returnToTitle = returnToTitle;
+
+
+  /* ====================================================================
+     RANKING SYSTEM - Firebase Realtime Database
+     ====================================================================
+     【セットアップ手順】
+     1. https://console.firebase.google.com/ でプロジェクト作成
+     2. Realtime Database を有効化（テストモードで開始）
+     3. プロジェクト設定 → 全般 → アプリ追加 (Web) → 設定情報をコピー
+     4. 下記の FIREBASE_CONFIG を自分の値に書き換え
+     5. 保存して完成！
+     ==================================================================== */
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyAcynaF5ZTVyquouYKbOcKmojfw8l0L350",
+    authDomain: "bibledochi.firebaseapp.com",
+    databaseURL: "https://bibledochi-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "bibledochi",
+    storageBucket: "bibledochi.firebasestorage.app",
+    messagingSenderId: "468902214794",
+    appId: "1:468902214794:web:7c26aa820b7cbea3b90173",
+    measurementId: "G-EBL63N4EVK"
+  };
+
+  let fbApp = null, fbDb = null, fbReady = false;
+
+  // Firebaseが設定されているかチェック (placeholderなら無効)
+  function isFirebaseConfigured() {
+    return FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== 'YOUR_API_KEY_HERE';
+  }
+
+  // Firebase動的読み込み (CDNから)
+  async function initFirebase() {
+    if (fbReady || !isFirebaseConfigured()) return fbReady;
+    try {
+      // Firebase SDK v9+ modular (CDNから動的import)
+      const [{ initializeApp }, { getDatabase, ref, push, set, get, query, orderByChild, limitToLast }] =
+        await Promise.all([
+          import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'),
+          import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js')
+        ]);
+      fbApp = initializeApp(FIREBASE_CONFIG);
+      fbDb = getDatabase(fbApp);
+      // モジュール参照を保持
+      window._fb = { ref, push, set, get, query, orderByChild, limitToLast };
+      fbReady = true;
+      console.log('[ranking] Firebase ready');
+      return true;
+    } catch (err) {
+      console.error('[ranking] Firebase init failed:', err);
+      return false;
+    }
+  }
+
+  // スコア計算: 勝敗・正答率・撃破した敵に応じて
+  function calculateScore() {
+    const history = state.history || [];
+    const judged = history.filter(h => h.judgedBy === 'player');
+    const correct = judged.filter(h => h.correct).length;
+    const wrong = judged.filter(h => !h.correct).length;
+    const correctRate = judged.length > 0 ? correct / judged.length : 0;
+    const remainingHP = state.playerHP;
+
+    let score = 0;
+    // 正解1問 = 100点
+    score += correct * 100;
+    // 不正解は -30点
+    score -= wrong * 30;
+    // 残りHP * 10
+    score += remainingHP * 10;
+    // ゴリアテ撃破 = 500点ボーナス
+    if (currentEnemy === 'saul' || (state.win && currentEnemy === 'goliath')) {
+      score += 500;
+    }
+    // サウロ撃破 (＝最終勝利) = 1500点ボーナス
+    if (state.win && currentEnemy === 'saul') {
+      score += 1500;
+    }
+    // 高正答率ボーナス: 90%以上で+500、75%以上で+200
+    if (correctRate >= 0.9) score += 500;
+    else if (correctRate >= 0.75) score += 200;
+
+    return Math.max(0, Math.round(score));
+  }
+
+  // ランクを取得
+  function getRank() {
+    const history = state.history || [];
+    const judged = history.filter(h => h.judgedBy === 'player');
+    const correct = judged.filter(h => h.correct).length;
+    const correctRate = judged.length > 0 ? correct / judged.length : 0;
+    if (state.win && currentEnemy === 'saul') {
+      if (correctRate >= 0.9) return 'S';
+      if (correctRate >= 0.75) return 'A';
+      if (correctRate >= 0.6) return 'B';
+      return 'C';
+    }
+    return 'F';
+  }
+
+  // ランキングにスコアを送信
+  async function submitScore(nickname) {
+    if (!isFirebaseConfigured()) {
+      throw new Error('Firebaseが設定されていません');
+    }
+    const ok = await initFirebase();
+    if (!ok) throw new Error('Firebase接続に失敗');
+
+    const { ref, push, set } = window._fb;
+    const scoreRef = ref(fbDb, 'rankings');
+    const newEntry = push(scoreRef);
+    const data = {
+      nickname: (nickname || 'Anonymous').slice(0, 20),
+      score: calculateScore(),
+      rank: getRank(),
+      defeated: state.win ? (currentEnemy === 'saul' ? 'saul' : 'goliath') : 'none',
+      enemy: currentEnemy,
+      timestamp: Date.now()
+    };
+    await set(newEntry, data);
+    return data;
+  }
+
+  // ランキングを取得 (Top 20)
+  async function fetchRanking(limit = 20) {
+    if (!isFirebaseConfigured()) return [];
+    const ok = await initFirebase();
+    if (!ok) return [];
+
+    const { ref, query, orderByChild, limitToLast, get } = window._fb;
+    const q = query(ref(fbDb, 'rankings'), orderByChild('score'), limitToLast(limit));
+    const snapshot = await get(q);
+    if (!snapshot.exists()) return [];
+    const arr = [];
+    snapshot.forEach(child => {
+      arr.push({ id: child.key, ...child.val() });
+    });
+    arr.sort((a, b) => b.score - a.score);
+    return arr;
+  }
+
+  /* === Ranking UI === */
+  let scoreSubmitted = false;
+
+  async function handleSubmitScore(btn) {
+    if (scoreSubmitted) return;
+    const inputEl = document.getElementById('rankNickname');
+    const statusEl = document.getElementById('rankStatus');
+    const nickname = (inputEl?.value || '').trim();
+    if (!nickname) {
+      statusEl.textContent = '⚠️ ニックネームを入力してください';
+      statusEl.style.color = '#fbbf24';
+      return;
+    }
+    if (nickname.length > 20) {
+      statusEl.textContent = '⚠️ ニックネームは20文字以内';
+      statusEl.style.color = '#fbbf24';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+    statusEl.textContent = '';
+    try {
+      const submitted = await submitScore(nickname);
+      scoreSubmitted = true;
+      statusEl.innerHTML = `✅ ランキングに登録しました！<br><b style="color:#f4c95d">${submitted.score}</b> ポイント`;
+      statusEl.style.color = '#4ade80';
+      btn.style.display = 'none';
+      inputEl.disabled = true;
+      // ランキング表示ボタンへ切替
+      const showBtn = document.getElementById('showRankBtn');
+      if (showBtn) showBtn.style.display = 'inline-block';
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent = '❌ 登録に失敗しました: ' + (err.message || 'unknown error');
+      statusEl.style.color = '#f87171';
+      btn.disabled = false;
+      btn.textContent = '📤 ランキングに登録';
+    }
+  }
+  window.handleSubmitScore = handleSubmitScore;
+
+  async function showRanking() {
+    const overlay = document.createElement('div');
+    overlay.className = 'ranking-overlay';
+    overlay.innerHTML = `
+      <div class="ranking-modal">
+        <button class="ranking-close" onclick="this.closest('.ranking-overlay').remove()">×</button>
+        <h2 class="ranking-title">🏆 ランキング TOP 20</h2>
+        <div id="rankingBody" class="ranking-body">
+          <div class="ranking-loading">読み込み中...</div>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    try {
+      const list = await fetchRanking(20);
+      const body = document.getElementById('rankingBody');
+      if (list.length === 0) {
+        body.innerHTML = '<div class="ranking-empty">まだ誰も登録していません</div>';
+        return;
+      }
+      body.innerHTML = list.map((entry, i) => {
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '';
+        const rankColor = entry.rank === 'S' ? '#fbbf24' : entry.rank === 'A' ? '#4ade80' : entry.rank === 'B' ? '#60a5fa' : entry.rank === 'C' ? '#fb923c' : '#dc2626';
+        const defeatedLabel = entry.defeated === 'saul' ? '👑サウロ撃破' : entry.defeated === 'goliath' ? '⚔️ゴリアテ撃破' : '';
+        return `
+          <div class="ranking-row ${i < 3 ? 'top3' : ''}">
+            <div class="ranking-pos">${medal || '#' + (i+1)}</div>
+            <div class="ranking-name">${escapeHtml(entry.nickname)}</div>
+            <div class="ranking-rank-letter" style="color:${rankColor}">${entry.rank}</div>
+            <div class="ranking-score">${entry.score.toLocaleString()}</div>
+            <div class="ranking-defeated">${defeatedLabel}</div>
+          </div>`;
+      }).join('');
+    } catch (err) {
+      const body = document.getElementById('rankingBody');
+      body.innerHTML = '<div class="ranking-empty">ランキングの取得に失敗しました</div>';
+    }
+  }
+  window.showRanking = showRanking;
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    })[c]);
+  }
+
+
+
+  /* === STORY MODE === */
+  const storyPages = [
+    {
+      chapter: "プロローグ",
+      title: "羊飼いの少年",
+      bg: "./bg_bethlehem.jpg",
+      characters: [
+        { img: "./young_david.png", side: "right", scale: 1.0, label: "ダビデ", emotion: "gentle" }
+      ],
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "主はわが牧者なり…今日もまた、平和な日だ。", emotion: "gentle" },
+      narration: "紀元前約 <b>1000年</b>。<br>イスラエルの片田舎、<b>ベツレヘム</b>に、<br>羊を飼う少年がいた。<br>名は <b>ダビデ</b>。エッサイの末の子。"
+    },
+    {
+      chapter: "第一章",
+      title: "イスラエルの危機",
+      bg: "./background.jpg",
+      characters: [],
+      dialogue: { speaker: "narrator", name: "", text: "" },
+      narration: "イスラエルは強敵 <b class='red'>ペリシテ</b> と対峙していた。<br>サウル王の軍は <b>エラの谷</b> の片側に陣を張り、<br>ペリシテ軍は反対側の丘に陣取った。<br><br>両軍は睨み合い、<b>動こうとはしない。</b><br><span class='small'>ある「化け物」が現れたからだ。</span>"
+    },
+    {
+      chapter: "第二章",
+      title: "巨人ゴリアテ、現る",
+      bg: "./background.jpg",
+      characters: [
+        { img: "./goliath.png", side: "right", scale: 1.15, label: "ゴリアテ", emotion: "angry" }
+      ],
+      dialogue: { speaker: "goliath", name: "ゴリアテ", text: "イスラエルの者よ！戦士を一人寄越せ！我と戦わせよ！", emotion: "angry" },
+      narration: "毎朝毎晩、<b>四十日もの間</b>、<br>巨人は谷に下り立ち叫び続けた。<br>身の丈は <b class='red'>三メートル</b>。青銅の鎧で身を包んだその名は——<br><b style='font-size:1.15em'>ゴリアテ。</b>"
+    },
+    {
+      chapter: "第三章",
+      title: "誰が立ち向かうのか",
+      bg: "./bg_kingstent.jpg",
+      characters: [
+        { img: "./saul_king.png", side: "left", scale: 1.0, label: "サウル王", emotion: "commanding" }
+      ],
+      dialogue: { speaker: "saul_king", name: "サウル王", text: "ゴリアテを倒した者には、多くの褒美と王の娘を与えよう…！", emotion: "commanding" },
+      narration: "<b>サウル王</b> は布告を出した。<br>しかし——誰一人として、立ち上がらなかった。<br><span class='small'>勇士たちは皆、震え上がっていた。</span>"
+    },
+    {
+      chapter: "第四章",
+      title: "父からの使い",
+      bg: "./bg_house.jpg",
+      characters: [
+        { img: "./jesse.png", side: "left", scale: 1.0, label: "エッサイ", emotion: "gentle" },
+        { img: "./young_david.png", side: "right", scale: 0.9, label: "ダビデ", emotion: "idle" }
+      ],
+      dialogue: { speaker: "jesse", name: "父エッサイ", text: "ダビデよ、兄たちのもとへ食べ物を届けてくれ。戦地は遠い。気をつけてな。", emotion: "gentle" },
+      narration: "ベツレヘムの家にて、父エッサイは末の子に頼んだ。<br>パンと炒り麦を抱え、<br>少年は戦場へと向かった。"
+    },
+    {
+      chapter: "第五章",
+      title: "兄の叱責",
+      bg: "./background.jpg",
+      characters: [
+        { img: "./eliab.png", side: "left", scale: 1.05, label: "兄エリアブ", emotion: "angry" },
+        { img: "./young_david.png", side: "right", scale: 0.85, label: "ダビデ", emotion: "shocked" }
+      ],
+      dialogue: { speaker: "eliab", name: "兄エリアブ", text: "おまえはなぜここに来た？羊はどうした！その心の高ぶりを、私は知っているぞ！", emotion: "angry" },
+      narration: "兄エリアブはダビデを叱った。<br>戦場の様子を見に来た弟を、<br>戦士たる兄は許さなかったのだ。"
+    },
+    {
+      chapter: "第六章",
+      title: "少年の怒り",
+      bg: "./background.jpg",
+      characters: [
+        { img: "./young_david.png", side: "center", scale: 1.05, label: "ダビデ", emotion: "determined" }
+      ],
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "生ける神の軍をそしるとは、あの割礼なきペリシテ人は何者だ！私が行く！", emotion: "determined" },
+      narration: "少年の中で、燃え上がるものがあった。<br>恐れではなく、<b>義の怒り</b>。<br>そして彼はサウル王の前に進み出た——「私が戦います」。"
+    },
+    {
+      chapter: "第七章",
+      title: "鎧を脱ぎ捨てて",
+      bg: "./bg_kingstent.jpg",
+      characters: [
+        { img: "./saul_king.png", side: "left", scale: 1.0, label: "サウル王", emotion: "shocked" },
+        { img: "./young_david.png", side: "right", scale: 0.9, label: "ダビデ", emotion: "determined" }
+      ],
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "王よ、これを着けては歩けません。私は、私の方法で戦います。", emotion: "determined" },
+      narration: "王の鎧は重すぎた。<br>ダビデは脱ぎ捨て、ただ <b>羊飼いの杖</b> と<br><b>石投げ</b>だけを手に取った。"
+    },
+    {
+      chapter: "第八章",
+      title: "五つの石",
+      bg: "./bg_brook.jpg",
+      characters: [
+        { img: "./young_david.png", side: "center", scale: 0.95, label: "ダビデ", emotion: "gentle" }
+      ],
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "主よ、この石に…あなたの力を込めたまえ。", emotion: "gentle" },
+      narration: "谷川のほとりで、<br>ダビデは <b class='red'>五つの滑らかな石</b> を選び取った。<br><span class='small'>石投げに込めるは、信仰の力。</span>"
+    },
+    {
+      chapter: "第九章",
+      title: "対峙",
+      bg: "./background.jpg",
+      characters: [
+        { img: "./young_david.png", side: "left", scale: 0.85, label: "ダビデ", emotion: "determined" },
+        { img: "./goliath.png", side: "right", scale: 1.1, label: "ゴリアテ", emotion: "angry" }
+      ],
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "汝は剣と槍をもて来たれども、我は万軍の主の名によりて行く！戦いは主のものなり！", emotion: "determined" },
+      narration: "エラの谷の真ん中で、<br>少年と巨人は向かい合った。<br>巨人は嘲笑い、少年は確信していた——<br><b>戦いは主のもの</b> だと。"
+    },
+    {
+      chapter: "決戦の幕開け",
+      title: "運命の刻、来たれり",
+      bg: "./background.jpg",
+      characters: [],
+      dialogue: { speaker: "narrator", name: "", text: "" },
+      narration: "<b>君は今、ダビデである。</b><br><br>その手に握られしものは<br><b class='red'>石投げ</b>と <b class='red'>聖句の力</b>。<br>偽りの言葉を見抜き、真の御言葉で立ち向かえ！<br><br><b style='font-size:1.1em'>——戦いの時、来たれり。</b>"
+    }
+  ];
+
+  let storyIndex = 0;
+
+  function showStory() {
+    storyIndex = 0;
+    state.phase = 'story';
+    renderStory();
+  }
+  window.showStory = showStory;
+
+  let typewriterTimers = [];
+  let typewriterDoneFns = [];
+
+  function clearTypewriters() {
+    typewriterTimers.forEach(t => clearTimeout(t));
+    typewriterTimers = [];
+    typewriterDoneFns = [];
+  }
+
+  function typewriterEffect(elementId, fullHTML, charDelay = 60, startDelay = 0, pitch = 1.0, onDone = null) {
+    // Parse the HTML into a sequence of "text chars" and "tag chunks"
+    // Tags are inserted whole, text is typed char by char
+    const tokens = [];
+    let i = 0;
+    while (i < fullHTML.length) {
+      if (fullHTML[i] === '<') {
+        const end = fullHTML.indexOf('>', i);
+        if (end !== -1) {
+          tokens.push({ type: 'tag', value: fullHTML.slice(i, end + 1) });
+          i = end + 1;
+          continue;
+        }
+      }
+      tokens.push({ type: 'char', value: fullHTML[i] });
+      i++;
+    }
+
+    let built = '';
+    let charCount = 0;
+    const el = () => document.getElementById(elementId);
+    if (!el()) return;
+
+    // Initial empty
+    el().innerHTML = '<span class="typewriter-cursor"></span>';
+
+    // Schedule each token
+    let elapsed = startDelay;
+    tokens.forEach((tok, idx) => {
+      if (tok.type === 'tag') {
+        const t = setTimeout(() => {
+          built += tok.value;
+          if (el()) el().innerHTML = built + '<span class="typewriter-cursor"></span>';
+        }, elapsed);
+        typewriterTimers.push(t);
+      } else {
+        // Skip whitespace timing-wise (insert immediately, no sound)
+        const isWS = /\s/.test(tok.value);
+        const t = setTimeout(() => {
+          built += tok.value;
+          if (el()) el().innerHTML = built + '<span class="typewriter-cursor"></span>';
+          if (!isWS && (charCount % 2 === 0)) sfx.textBlip(pitch);
+          charCount++;
+        }, elapsed);
+        typewriterTimers.push(t);
+        elapsed += isWS ? 10 : charDelay;
+      }
+    });
+
+    // After all chars done, remove cursor
+    const tEnd = setTimeout(() => {
+      if (el()) el().innerHTML = built;
+      if (onDone) onDone();
+    }, elapsed + 100);
+    typewriterTimers.push(tEnd);
+    return elapsed + 100;
+  }
+
+  function renderStory() {
+    clearTypewriters();
+    const page = storyPages[storyIndex];
+    const total = storyPages.length;
+    const isFinal = storyIndex === total - 1;
+
+    sfx.pageTurn();
+
+    // Progress dots
+    let dots = '';
+    for (let i = 0; i < total; i++) {
+      const cls = i < storyIndex ? 'done' : (i === storyIndex ? 'active' : '');
+      dots += `<div class="story-dot ${cls}"></div>`;
+    }
+
+    // Characters HTML with emotion classes
+    let charsHTML = '';
+    if (page.characters && page.characters.length > 0) {
+      page.characters.forEach((ch, idx) => {
+        const sideCls = ch.side;
+        const scale = ch.scale || 1.0;
+        const emo = ch.emotion || 'idle';
+        const animDelay = (idx * 0.15) + 's';
+        // Mark as "speaking" if this character is the dialogue speaker
+        const speakingCls = (page.dialogue && page.dialogue.speaker
+          && (page.dialogue.speaker === 'young_david' && ch.img.includes('young_david')
+              || page.dialogue.speaker === 'david' && ch.img.includes('david.png') && !ch.img.includes('young')
+              || page.dialogue.speaker === 'goliath' && ch.img.includes('goliath')
+              || page.dialogue.speaker === 'saul_king' && ch.img.includes('saul_king')
+              || page.dialogue.speaker === 'jesse' && ch.img.includes('jesse')
+              || page.dialogue.speaker === 'eliab' && ch.img.includes('eliab'))) ? ' speaking' : '';
+        charsHTML += `
+          <div class="story-char ${sideCls} emotion-${emo}${speakingCls}" style="animation-delay: ${animDelay}; --char-scale: ${scale};">
+            <img src="${ch.img}" alt="${ch.label}" onerror="this.style.display='none'">
+          </div>`;
+      });
+    }
+
+    // Dialogue HTML
+    let dialogueHTML = '';
+    if (page.dialogue && page.dialogue.text) {
+      const speakerImgMap = {
+        young_david: './young_david.png',
+        david: './david.png',
+        goliath: './goliath.png',
+        saul_king: './saul_king.png',
+        saul: './saul.png',
+        jesse: './jesse.png',
+        eliab: './eliab.png'
+      };
+      const speakerImg = speakerImgMap[page.dialogue.speaker] || './young_david.png';
+      const isPlayerSide = ['young_david', 'david'].includes(page.dialogue.speaker);
+      const portraitSide = isPlayerSide ? 'left' : 'right';
+      dialogueHTML = `
+        <div class="story-dialogue ${portraitSide}">
+          <div class="story-portrait">
+            <img src="${speakerImg}" alt="${page.dialogue.name}">
+          </div>
+          <div class="story-bubble">
+            <div class="story-speaker">${page.dialogue.name}</div>
+            <div class="story-line" id="dialogueLine"></div>
+          </div>
+        </div>`;
+    }
+
+    app.innerHTML = `
+      ${soundToggleHTML()}
+      <div class="story-screen-v2" style="background-image: url('${page.bg}');">
+        <div class="story-bg-overlay"></div>
+        <div class="story-stage" onclick="if(typewriterTimers && typewriterTimers.length > 0) fastForwardStory()">
+          <div class="story-header">
+            <div class="story-chapter">${page.chapter}</div>
+            <div class="story-title">${page.title}</div>
+          </div>
+          <div class="story-characters">${charsHTML}</div>
+          ${dialogueHTML}
+          <div class="story-narration" id="narrationText"></div>
+          <div class="story-progress">${dots}</div>
+          <div class="story-nav" onclick="event.stopPropagation()">
+            ${storyIndex > 0
+              ? `<button class="story-btn" onclick="storyPrev()">◀ 前へ</button>`
+              : `<button class="story-btn skip" onclick="storySkip()">スキップ</button>`}
+            ${isFinal
+              ? `<button class="story-btn primary final" onclick="storyFinish()">⚔️ 戦いを始める</button>`
+              : `<button class="story-btn primary" onclick="storyNext()">次へ ▶</button>`}
+          </div>
+        </div>
+      </div>`;
+
+    // Speaker pitch by character
+    const pitchMap = {
+      young_david: 1.4,
+      david: 1.2,
+      goliath: 0.6,
+      saul_king: 0.8,
+      saul: 0.7,
+      jesse: 0.75,
+      eliab: 0.85,
+      narrator: 1.0
+    };
+
+    // Step 1: dialogue typewriter (if exists)
+    let narrationStartDelay = 300;
+    if (page.dialogue && page.dialogue.text) {
+      const dialogueText = '「' + page.dialogue.text + '」';
+      const pitch = pitchMap[page.dialogue.speaker] || 1.0;
+      const dialogueDuration = typewriterEffect('dialogueLine', dialogueText, 65, 600, pitch);
+      narrationStartDelay = (dialogueDuration || 0) + 400;
+    }
+
+    // Step 2: narration typewriter
+    if (page.narration) {
+      typewriterEffect('narrationText', page.narration, 35, narrationStartDelay, 1.0);
+    }
+  }
+
+  function fastForwardStory() {
+    // Show all text immediately
+    clearTypewriters();
+    const page = storyPages[storyIndex];
+    if (page.dialogue && page.dialogue.text) {
+      const el = document.getElementById('dialogueLine');
+      if (el) el.innerHTML = '「' + page.dialogue.text + '」';
+    }
+    if (page.narration) {
+      const el = document.getElementById('narrationText');
+      if (el) el.innerHTML = page.narration;
+    }
+  }
+  window.fastForwardStory = fastForwardStory;
+
+  function storyNext() {
+    // If typewriter is still running, fast-forward instead of advancing
+    if (typewriterTimers && typewriterTimers.length > 0) {
+      fastForwardStory();
+      return;
+    }
+    if (storyIndex < storyPages.length - 1) {
+      storyIndex++;
+      renderStory();
+    }
+  }
+  function storyPrev() {
+    if (storyIndex > 0) {
+      storyIndex--;
+      renderStory();
+    }
+  }
+  function storySkip() {
+    storyFinish();
+  }
+  function storyFinish() {
+    startGame();
+  }
+  window.storyNext = storyNext;
+  window.storyPrev = storyPrev;
+  window.storySkip = storySkip;
+  window.storyFinish = storyFinish;
+
 
   music.init();
   render();
