@@ -1189,6 +1189,186 @@
   /* Hide old dialogue layout */
   .story-dialogue { display: none; }
 
+
+  /* === Cut-in portrait alongside dialogue bubble === */
+  .story-dialogue-center {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .story-cutin-portrait {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .story-cutin-portrait.left {
+    top: -50px;
+    left: -45px;
+    animation: portraitPopIn 0.5s 0.6s cubic-bezier(0.4, 1.6, 0.5, 1) forwards;
+  }
+  .story-cutin-portrait.right {
+    top: -50px;
+    right: -45px;
+    animation: portraitPopIn 0.5s 0.6s cubic-bezier(0.4, 1.6, 0.5, 1) forwards;
+  }
+  @keyframes portraitPopIn {
+    0%   { opacity: 0; transform: scale(0.4) rotate(-12deg); }
+    60%  { opacity: 1; transform: scale(1.1) rotate(2deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  .story-cutin-portrait .story-cutin-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid #f4c95d;
+    overflow: hidden;
+    background: #1a0f08;
+    box-shadow:
+      0 0 24px rgba(244,201,93,0.85),
+      0 0 50px rgba(244,201,93,0.4),
+      0 6px 20px rgba(0,0,0,0.85),
+      inset 0 0 16px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .story-cutin-portrait .story-cutin-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    display: block;
+  }
+  /* Speed line burst on portrait pop */
+  .story-cutin-portrait::before {
+    content: "";
+    position: absolute;
+    inset: -16px;
+    background-image: repeating-conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 7deg,
+      rgba(244,201,93,0.4) 8deg,
+      rgba(244,201,93,0.4) 9deg,
+      transparent 10deg,
+      transparent 18deg
+    );
+    border-radius: 50%;
+    opacity: 0;
+    z-index: -1;
+    animation: portraitSpeedLines 0.8s 0.6s ease-out forwards;
+  }
+  @keyframes portraitSpeedLines {
+    0%   { opacity: 0; transform: scale(0.5) rotate(0); }
+    50%  { opacity: 1; transform: scale(1) rotate(20deg); }
+    100% { opacity: 0; transform: scale(1.5) rotate(40deg); }
+  }
+  @media (max-width: 480px) {
+    .story-cutin-portrait { width: 75px; height: 75px; }
+    .story-cutin-portrait.left { top: -42px; left: -32px; }
+    .story-cutin-portrait.right { top: -42px; right: -32px; }
+  }
+
+    
+  /* === Final scene dramatic effects === */
+  .story-final-effects {
+    position: absolute; inset: 0;
+    z-index: 15;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* Lightning flashes */
+  .final-flash {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,246,213,0.95) 0%, transparent 70%);
+    opacity: 0;
+    animation: finalFlash 4.5s ease-out forwards;
+  }
+  @keyframes finalFlash {
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    12%  { opacity: 0; }
+    18%  { opacity: 0.8; }
+    22%  { opacity: 0; }
+    50%  { opacity: 0; }
+    52%  { opacity: 0.6; }
+    55%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  /* Falling embers/sparks */
+  .final-spark {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: #f4c95d;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #f4c95d, 0 0 16px rgba(244,201,93,0.5);
+    opacity: 0;
+    animation: finalSparkFall 4s linear infinite;
+  }
+  @keyframes finalSparkFall {
+    0%   { opacity: 0; transform: translateY(-20px) scale(0.5); }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(110vh) scale(1.2); }
+  }
+  /* Pulsing red overlay for tension */
+  .final-tension {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(139,21,21,0.35) 100%);
+    animation: finalTensionPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes finalTensionPulse {
+    0%,100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  /* Final scene: dimmer chapter+title, more dramatic narration */
+  .story-screen-v2.final-scene .story-narration-bottom {
+    background: rgba(8,4,2,0.96);
+    border-top: 3px solid #f4c95d;
+    box-shadow: 0 -6px 30px rgba(244,201,93,0.35), 0 -10px 40px rgba(0,0,0,0.8);
+    font-size: 1rem;
+    padding: 18px 20px 20px;
+  }
+  .story-screen-v2.final-scene .story-title {
+    font-size: 1.7rem;
+    color: #f4c95d;
+    text-shadow:
+      2px 2px 0 #1a0f08,
+      0 0 20px rgba(244,201,93,0.8),
+      0 0 40px rgba(244,201,93,0.4),
+      0 4px 16px rgba(0,0,0,1);
+    animation: finalTitlePulse 2s ease-in-out infinite;
+  }
+  @keyframes finalTitlePulse {
+    0%,100% { text-shadow: 2px 2px 0 #1a0f08, 0 0 20px rgba(244,201,93,0.8), 0 0 40px rgba(244,201,93,0.4), 0 4px 16px rgba(0,0,0,1); }
+    50%     { text-shadow: 2px 2px 0 #1a0f08, 0 0 30px rgba(244,201,93,1), 0 0 60px rgba(244,201,93,0.7), 0 4px 16px rgba(0,0,0,1); }
+  }
+  .story-screen-v2.final-scene .story-btn.primary.final {
+    font-size: 1.05rem;
+    padding: 14px 32px;
+    background: linear-gradient(180deg, #dc2626 0%, #7c1515 100%);
+    border-color: #ff8a8a;
+    color: #fff6d5;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+    box-shadow:
+      0 4px 0 #3a0808,
+      0 0 24px rgba(220,38,38,0.7),
+      0 8px 32px rgba(220,38,38,0.4);
+    animation: finalBtnPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes finalBtnPulse {
+    0%,100% {
+      box-shadow: 0 4px 0 #3a0808, 0 0 24px rgba(220,38,38,0.7), 0 8px 32px rgba(220,38,38,0.4);
+      transform: scale(1);
+    }
+    50%     {
+      box-shadow: 0 4px 0 #3a0808, 0 0 40px rgba(220,38,38,1), 0 8px 40px rgba(220,38,38,0.8);
+      transform: scale(1.05);
+    }
+  }
+
   /* === Narration: BOTTOM of screen, gentle floating reveal === */
   .story-narration-bottom {
     position: relative;
@@ -2317,17 +2497,29 @@
       o.start(t); o.stop(t + 0.06);
     }); },
     pageTurn() { this.play(ctx => {
-      const t = ctx.currentTime, bs = ctx.sampleRate * 0.2;
+      // Soft paper rustle - gentle, low-volume, more atmospheric
+      const t = ctx.currentTime, bs = ctx.sampleRate * 0.35;
       const buf = ctx.createBuffer(1, bs, ctx.sampleRate);
       const d = buf.getChannelData(0);
-      for (let i = 0; i < bs; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bs, 1.5);
+      // Pink-noise-like, gentler fade
+      for (let i = 0; i < bs; i++) {
+        const env = Math.pow(1 - i / bs, 2.5) * Math.pow(i / (bs * 0.3), 0.5);
+        d[i] = (Math.random() * 2 - 1) * env;
+      }
       const s = ctx.createBufferSource(); s.buffer = buf;
-      const f = ctx.createBiquadFilter(); f.type = 'highpass';
-      f.frequency.setValueAtTime(2000, t);
-      f.frequency.exponentialRampToValueAtTime(500, t + 0.2); f.Q.value = 2;
-      const g = ctx.createGain(); g.gain.value = 0.15;
-      s.connect(f).connect(g).connect(ctx.destination);
-      s.start(t); s.stop(t + 0.25);
+      // Bandpass for soft, mid-range "swish" without harshness
+      const f = ctx.createBiquadFilter(); f.type = 'bandpass';
+      f.frequency.setValueAtTime(800, t);
+      f.frequency.exponentialRampToValueAtTime(1200, t + 0.15);
+      f.frequency.exponentialRampToValueAtTime(400, t + 0.35);
+      f.Q.value = 1.2;
+      // Lower volume for gentleness
+      const g = ctx.createGain(); g.gain.value = 0.05;
+      // Add a touch of low-frequency warmth via second filter
+      const f2 = ctx.createBiquadFilter(); f2.type = 'lowpass';
+      f2.frequency.value = 2200; f2.Q.value = 0.7;
+      s.connect(f).connect(f2).connect(g).connect(ctx.destination);
+      s.start(t); s.stop(t + 0.4);
     }); },
     thunder() { this.play(ctx => {
       const t = ctx.currentTime;
@@ -3910,9 +4102,13 @@
       chapter: "決戦の幕開け",
       title: "運命の刻、来たれり",
       bg: "./background.jpg",
-      characters: [],
+      characters: [
+        { img: "./young_david.png", side: "left", scale: 0.9, label: "ダビデ", emotion: "determined" },
+        { img: "./goliath.png", side: "right", scale: 1.15, label: "ゴリアテ", emotion: "angry" }
+      ],
       dialogue: { speaker: "narrator", name: "", text: "" },
-      narration: "<b>君は今、ダビデである。</b><br><br>その手に握られしものは<br><b class='red'>石投げ</b>と <b class='red'>聖句の力</b>。<br>偽りの言葉を見抜き、真の御言葉で立ち向かえ！<br><br><b style='font-size:1.1em'>——戦いの時、来たれり。</b>"
+      narration: "<b>君は今、ダビデである。</b><br><br>その手に握られしものは<br><b class='red'>石投げ</b>と <b class='red'>聖句の力</b>。<br>偽りの言葉を見抜き、真の御言葉で立ち向かえ！<br><br><b style='font-size:1.1em'>——戦いの時、来たれり。</b>",
+      final: true
     }
   ];
 
@@ -4072,11 +4268,17 @@
 
   function renderStory() {
     clearTypewriters();
+    storyAdvanceReady = false;
     const page = storyPages[storyIndex];
     const total = storyPages.length;
     const isFinal = storyIndex === total - 1;
 
     sfx.pageTurn();
+    if (page.final && sfx.thunder) {
+      // Dramatic thunder + flash on entering final scene
+      setTimeout(() => sfx.thunder(), 600);
+      setTimeout(() => sfx.thunder(), 2400);
+    }
 
     // Progress dots
     let dots = '';
@@ -4115,11 +4317,19 @@
       });
     }
 
-    // Dialogue HTML - centered floating bubble
+    // Dialogue HTML - centered floating bubble + circular cut-in portrait
     let dialogueHTML = '';
     if (page.dialogue && page.dialogue.text) {
+      const isPlayerSide = ['young_david', 'david'].includes(page.dialogue.speaker);
+      const portraitSide = isPlayerSide ? 'left' : 'right';
+      const faceImg = page.dialogue.face || './young_david.png';
       dialogueHTML = `
-        <div class="story-dialogue-center" id="storyDialogue">
+        <div class="story-dialogue-center ${portraitSide}" id="storyDialogue">
+          <div class="story-cutin-portrait ${portraitSide}" id="storyCutin">
+            <div class="story-cutin-frame">
+              <img src="${faceImg}" alt="${page.dialogue.name}" onerror="this.style.display='none'">
+            </div>
+          </div>
           <div class="story-dialogue-bubble">
             <div class="story-dialogue-speaker">${page.dialogue.name}</div>
             <div class="story-dialogue-line" id="dialogueLine"></div>
@@ -4129,7 +4339,14 @@
 
     app.innerHTML = `
       ${soundToggleHTML()}
-      <div class="story-screen-v2" style="background-image: url('${page.bg}');">
+      <div class="story-screen-v2 ${page.final ? 'final-scene' : ''}" style="background-image: url('${page.bg}');">
+        ${page.final ? `
+          <div class="story-final-effects">
+            <div class="final-tension"></div>
+            <div class="final-flash"></div>
+            ${Array.from({length: 12}, (_, i) => `<div class="final-spark" style="left: ${i * 9 + Math.random() * 8}%; animation-delay: ${i * 0.3}s; animation-duration: ${3 + Math.random() * 2}s;"></div>`).join('')}
+          </div>
+        ` : ''}
         <div class="story-bg-overlay"></div>
         <div class="story-stage" onclick="if(typewriterTimers && typewriterTimers.length > 0) fastForwardStory()">
           <div class="story-header">
@@ -4278,15 +4495,20 @@
   }
   window.fastForwardStory = fastForwardStory;
 
+  let storyAdvanceReady = false;  // false = fast-forward on next click; true = advance
+
   function storyNext() {
-    // If typewriter is still running, fast-forward instead of advancing
+    // First click while typewriter running: fast-forward
     if (typewriterTimers && typewriterTimers.length > 0) {
       fastForwardStory();
+      storyAdvanceReady = true;
       return;
     }
+    // Otherwise advance to next page
     if (storyIndex < storyPages.length - 1) {
       storyIndex++;
       renderStory();
+      storyAdvanceReady = false;
     }
   }
   function storyPrev() {
