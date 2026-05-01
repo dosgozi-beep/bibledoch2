@@ -1146,12 +1146,13 @@
     background: rgba(26,15,8,0.96);
     border: 3px solid #f4c95d;
     border-radius: 14px;
-    padding: 14px 20px;
+    padding: 18px 22px 18px;
     box-shadow:
       0 0 30px rgba(244,201,93,0.5),
       0 8px 24px rgba(0,0,0,0.8),
       inset 0 0 16px rgba(244,201,93,0.08);
     position: relative;
+    margin-top: 90px;  /* room for larger portrait above */
   }
   .story-dialogue-bubble::before,
   .story-dialogue-bubble::after {
@@ -1169,14 +1170,26 @@
     border-left: none; border-top: none;
   }
   .story-dialogue-speaker {
+    position: absolute;
+    top: -50px;
     color: #f4c95d;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     font-weight: bold;
     letter-spacing: 0.12em;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(244,201,93,0.3);
+    background: rgba(26,15,8,0.95);
+    padding: 6px 14px;
+    border: 2px solid #f4c95d;
+    border-radius: 18px;
     text-shadow: 0 0 8px rgba(244,201,93,0.4);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    white-space: nowrap;
+  }
+  /* Speaker label position - opposite side of portrait */
+  .story-dialogue-center.left .story-dialogue-speaker {
+    left: 140px;
+  }
+  .story-dialogue-center.right .story-dialogue-speaker {
+    right: 140px;
   }
   .story-dialogue-line {
     color: #f4e4c1;
@@ -1198,27 +1211,39 @@
   }
   .story-cutin-portrait {
     position: absolute;
-    width: 90px;
-    height: 90px;
+    width: 110px;
+    height: 110px;
     z-index: 30;
     pointer-events: none;
     opacity: 0;
     transform: scale(0.6);
   }
+  /* Place portrait above bubble (centered with offset by side) */
   .story-cutin-portrait.left {
-    top: -50px;
-    left: -45px;
-    animation: portraitPopIn 0.5s 0.6s cubic-bezier(0.4, 1.6, 0.5, 1) forwards;
+    top: -90px;
+    left: 14px;
+    animation:
+      portraitPopIn 0.5s 0.6s cubic-bezier(0.4, 1.6, 0.5, 1) forwards,
+      portraitSpeakBounce 1.6s 1.3s ease-in-out infinite;
   }
   .story-cutin-portrait.right {
-    top: -50px;
-    right: -45px;
-    animation: portraitPopIn 0.5s 0.6s cubic-bezier(0.4, 1.6, 0.5, 1) forwards;
+    top: -90px;
+    right: 14px;
+    animation:
+      portraitPopIn 0.5s 0.6s cubic-bezier(0.4, 1.6, 0.5, 1) forwards,
+      portraitSpeakBounce 1.6s 1.3s ease-in-out infinite;
   }
   @keyframes portraitPopIn {
     0%   { opacity: 0; transform: scale(0.4) rotate(-12deg); }
     60%  { opacity: 1; transform: scale(1.1) rotate(2deg); }
     100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  /* Subtle speaking bounce - mimics talking */
+  @keyframes portraitSpeakBounce {
+    0%, 100% { transform: scale(1) translateY(0) rotate(0); }
+    25%      { transform: scale(1.04) translateY(-3px) rotate(-1deg); }
+    50%      { transform: scale(1) translateY(0) rotate(0); }
+    75%      { transform: scale(1.04) translateY(-3px) rotate(1deg); }
   }
   .story-cutin-portrait .story-cutin-frame {
     width: 100%;
@@ -1266,9 +1291,13 @@
     100% { opacity: 0; transform: scale(1.5) rotate(40deg); }
   }
   @media (max-width: 480px) {
-    .story-cutin-portrait { width: 75px; height: 75px; }
-    .story-cutin-portrait.left { top: -42px; left: -32px; }
-    .story-cutin-portrait.right { top: -42px; right: -32px; }
+    .story-cutin-portrait { width: 92px; height: 92px; }
+    .story-cutin-portrait.left { top: -76px; left: 10px; }
+    .story-cutin-portrait.right { top: -76px; right: 10px; }
+    .story-dialogue-bubble { margin-top: 76px; }
+    .story-dialogue-speaker { top: -42px; }
+    .story-dialogue-center.left .story-dialogue-speaker { left: 116px; }
+    .story-dialogue-center.right .story-dialogue-speaker { right: 116px; }
   }
 
     
@@ -3744,12 +3773,44 @@
         </div>
 
         ${(state.win && currentEnemy === 'goliath') ? `
+          ${isFirebaseConfigured() && !scoreSubmitted ? `
+            <div class="ranking-submit">
+              <div class="ranking-submit-title">🏆 ランキングに残す</div>
+              <div class="ranking-submit-sub">あなたのスコア</div>
+              <div class="ranking-score-display">
+                <span class="score-num">${calculateScore().toLocaleString()}</span> ポイント
+              </div>
+              <input type="text" class="ranking-input" id="rankNickname" placeholder="ニックネーム（20文字以内）" maxlength="20">
+              <div class="ranking-actions">
+                <button class="main-btn" onclick="handleSubmitScore(this)">📤 ランキングに登録</button>
+                <button class="ranking-skip" onclick="this.closest('.ranking-submit').style.display='none'">登録せずに進む</button>
+              </div>
+              <div class="ranking-status" id="rankStatus"></div>
+            </div>
+          ` : ''}
+          <button class="main-btn" id="showRankBtn" onclick="showRanking()" ${isFirebaseConfigured() ? '' : 'style="display:none"'}>🏆 ランキングを見る</button>
           <div class="next-battle-warning">
             ${t('nextBattleWarning')}
           </div>
           <button class="main-btn next-battle-btn" onclick="advanceToSaul()">${t('nextBattleBtn')}</button>
           <button class="main-btn sub-btn" onclick="returnToTitle()">${t('returnTitleBtn')}</button>
         ` : `
+          ${(state.win && isFirebaseConfigured() && !scoreSubmitted) ? `
+            <div class="ranking-submit">
+              <div class="ranking-submit-title">🏆 ランキングに残す</div>
+              <div class="ranking-submit-sub">あなたのスコア</div>
+              <div class="ranking-score-display">
+                <span class="score-num">${calculateScore().toLocaleString()}</span> ポイント
+              </div>
+              <input type="text" class="ranking-input" id="rankNickname" placeholder="ニックネーム（20文字以内）" maxlength="20">
+              <div class="ranking-actions">
+                <button class="main-btn" onclick="handleSubmitScore(this)">📤 ランキングに登録</button>
+                <button class="ranking-skip" onclick="this.closest('.ranking-submit').style.display='none'">登録せずに進む</button>
+              </div>
+              <div class="ranking-status" id="rankStatus"></div>
+            </div>
+          ` : ''}
+          ${isFirebaseConfigured() ? `<button class="main-btn" id="showRankBtn" onclick="showRanking()">🏆 ランキングを見る</button>` : ''}
           <button class="main-btn" onclick="returnToTitle()">${t('returnTitleBtn')}</button>
         `}
       </div>`;
@@ -4498,17 +4559,11 @@
   let storyAdvanceReady = false;  // false = fast-forward on next click; true = advance
 
   function storyNext() {
-    // First click while typewriter running: fast-forward
-    if (typewriterTimers && typewriterTimers.length > 0) {
-      fastForwardStory();
-      storyAdvanceReady = true;
-      return;
-    }
-    // Otherwise advance to next page
+    // Always advance to next page (clear typewriters first to stop animations)
+    clearTypewriters();
     if (storyIndex < storyPages.length - 1) {
       storyIndex++;
       renderStory();
-      storyAdvanceReady = false;
     }
   }
   function storyPrev() {
