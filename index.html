@@ -908,6 +908,116 @@
     50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
   }
 
+
+  /* === STORY CUT-IN (Super Robot Wars style) === */
+  .story-cutin {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30;
+    pointer-events: none;
+    width: 220px;
+    height: 220px;
+    opacity: 0;
+  }
+  .story-cutin.left { left: -260px; }
+  .story-cutin.right { right: -260px; }
+  .story-cutin.active.left { animation: cutinSlideInL 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards; }
+  .story-cutin.active.right { animation: cutinSlideInR 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards; }
+  @keyframes cutinSlideInL {
+    0%   { left: -260px; opacity: 0; transform: translateY(-50%) rotate(-8deg); }
+    60%  { opacity: 1; }
+    100% { left: 8px; opacity: 1; transform: translateY(-50%) rotate(0); }
+  }
+  @keyframes cutinSlideInR {
+    0%   { right: -260px; opacity: 0; transform: translateY(-50%) rotate(8deg); }
+    60%  { opacity: 1; }
+    100% { right: 8px; opacity: 1; transform: translateY(-50%) rotate(0); }
+  }
+  .story-cutin-frame {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 5px solid #f4c95d;
+    overflow: hidden;
+    background: #1a0f08;
+    box-shadow:
+      0 0 28px rgba(244,201,93,0.85),
+      0 0 60px rgba(244,201,93,0.4),
+      0 8px 24px rgba(0,0,0,0.85),
+      inset 0 0 20px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .story-cutin-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+  /* Speed lines around cut-in */
+  .story-cutin::before {
+    content: "";
+    position: absolute;
+    inset: -25px;
+    background-image: repeating-conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 8deg,
+      rgba(244,201,93,0.35) 9deg,
+      rgba(244,201,93,0.35) 10deg,
+      transparent 11deg,
+      transparent 20deg
+    );
+    border-radius: 50%;
+    opacity: 0;
+    z-index: -1;
+  }
+  .story-cutin.active::before { animation: cutinSpeedLines 0.7s ease-out forwards; }
+  @keyframes cutinSpeedLines {
+    0%   { opacity: 0; transform: scale(0.5) rotate(0); }
+    40%  { opacity: 1; transform: scale(1) rotate(15deg); }
+    100% { opacity: 0; transform: scale(1.4) rotate(30deg); }
+  }
+  /* Speaker name label below the cut-in */
+  .story-cutin-name {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(26,15,8,0.95);
+    color: #f4c95d;
+    padding: 4px 14px;
+    border-radius: 6px;
+    border: 1px solid #f4c95d;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  }
+
+  /* Hide old portrait since cut-in replaces it */
+  .story-screen-v2 .story-portrait { display: none; }
+  .story-screen-v2 .story-bubble { border-left-width: 4px; }
+  .story-screen-v2 .story-dialogue.left .story-bubble::before,
+  .story-screen-v2 .story-dialogue.right .story-bubble::before { display: none; }
+
+  /* Smaller phones */
+  @media (max-width: 480px) {
+    .story-cutin { width: 170px; height: 170px; }
+    .story-cutin.active.left { animation-name: cutinSlideInLSm; }
+    .story-cutin.active.right { animation-name: cutinSlideInRSm; }
+    @keyframes cutinSlideInLSm {
+      0%   { left: -200px; opacity: 0; transform: translateY(-50%) rotate(-8deg); }
+      60%  { opacity: 1; }
+      100% { left: 6px; opacity: 1; transform: translateY(-50%) rotate(0); }
+    }
+    @keyframes cutinSlideInRSm {
+      0%   { right: -200px; opacity: 0; transform: translateY(-50%) rotate(8deg); }
+      60%  { opacity: 1; }
+      100% { right: 6px; opacity: 1; transform: translateY(-50%) rotate(0); }
+    }
+  }
+
   /* === STORY MODE V2 (Image-based) === */
   .story-screen-v2 {
     min-height: 100vh;
@@ -3425,7 +3535,7 @@
       characters: [
         { img: "./young_david.png", side: "right", scale: 1.0, label: "ダビデ", emotion: "gentle" }
       ],
-      dialogue: { speaker: "young_david", name: "ダビデ", text: "主はわが牧者なり…今日もまた、平和な日だ。", emotion: "gentle" },
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "主はわが牧者なり…今日もまた、平和な日だ。", voice: "./voice_01_david.mp3", face: "./face_david_gentle.jpg", emotion: "gentle" },
       narration: "紀元前約 <b>1000年</b>。<br>イスラエルの片田舎、<b>ベツレヘム</b>に、<br>羊を飼う少年がいた。<br>名は <b>ダビデ</b>。エッサイの末の子。"
     },
     {
@@ -3443,7 +3553,7 @@
       characters: [
         { img: "./goliath.png", side: "right", scale: 1.15, label: "ゴリアテ", emotion: "angry" }
       ],
-      dialogue: { speaker: "goliath", name: "ゴリアテ", text: "イスラエルの者よ！戦士を一人寄越せ！我と戦わせよ！", emotion: "angry" },
+      dialogue: { speaker: "goliath", name: "ゴリアテ", text: "イスラエルの者よ！戦士を一人寄越せ！我と戦わせよ！", voice: "./voice_02_goliath.mp3", face: "./face_goliath_roar.jpg", emotion: "angry" },
       narration: "毎朝毎晩、<b>四十日もの間</b>、<br>巨人は谷に下り立ち叫び続けた。<br>身の丈は <b class='red'>三メートル</b>。青銅の鎧で身を包んだその名は——<br><b style='font-size:1.15em'>ゴリアテ。</b>"
     },
     {
@@ -3453,7 +3563,7 @@
       characters: [
         { img: "./saul_king.png", side: "left", scale: 1.0, label: "サウル王", emotion: "commanding" }
       ],
-      dialogue: { speaker: "saul_king", name: "サウル王", text: "ゴリアテを倒した者には、多くの褒美と王の娘を与えよう…！", emotion: "commanding" },
+      dialogue: { speaker: "saul_king", name: "サウル王", text: "ゴリアテを倒した者には、多くの褒美と王の娘を与えよう…！", voice: "./voice_03_saul.mp3", face: "./face_saul_command.jpg", emotion: "commanding" },
       narration: "<b>サウル王</b> は布告を出した。<br>しかし——誰一人として、立ち上がらなかった。<br><span class='small'>勇士たちは皆、震え上がっていた。</span>"
     },
     {
@@ -3464,7 +3574,7 @@
         { img: "./jesse.png", side: "left", scale: 1.0, label: "エッサイ", emotion: "gentle" },
         { img: "./young_david.png", side: "right", scale: 0.9, label: "ダビデ", emotion: "idle" }
       ],
-      dialogue: { speaker: "jesse", name: "父エッサイ", text: "ダビデよ、兄たちのもとへ食べ物を届けてくれ。戦地は遠い。気をつけてな。", emotion: "gentle" },
+      dialogue: { speaker: "jesse", name: "父エッサイ", text: "ダビデよ、兄たちのもとへ食べ物を届けてくれ。戦地は遠い。気をつけてな。", voice: "./voice_04_jesse.mp3", face: "./face_jesse_gentle.jpg", emotion: "gentle" },
       narration: "ベツレヘムの家にて、父エッサイは末の子に頼んだ。<br>パンと炒り麦を抱え、<br>少年は戦場へと向かった。"
     },
     {
@@ -3475,7 +3585,7 @@
         { img: "./eliab.png", side: "left", scale: 1.05, label: "兄エリアブ", emotion: "angry" },
         { img: "./young_david.png", side: "right", scale: 0.85, label: "ダビデ", emotion: "shocked" }
       ],
-      dialogue: { speaker: "eliab", name: "兄エリアブ", text: "おまえはなぜここに来た？羊はどうした！その心の高ぶりを、私は知っているぞ！", emotion: "angry" },
+      dialogue: { speaker: "eliab", name: "兄エリアブ", text: "おまえはなぜここに来た？羊はどうした！その心の高ぶりを、私は知っているぞ！", voice: "./voice_05_eliab.mp3", face: "./face_eliab_angry.jpg", emotion: "angry" },
       narration: "兄エリアブはダビデを叱った。<br>戦場の様子を見に来た弟を、<br>戦士たる兄は許さなかったのだ。"
     },
     {
@@ -3485,7 +3595,7 @@
       characters: [
         { img: "./young_david.png", side: "center", scale: 1.05, label: "ダビデ", emotion: "determined" }
       ],
-      dialogue: { speaker: "young_david", name: "ダビデ", text: "生ける神の軍をそしるとは、あの割礼なきペリシテ人は何者だ！私が行く！", emotion: "determined" },
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "生ける神の軍をそしるとは、あの割礼なきペリシテ人は何者だ！私が行く！", voice: "./voice_06_david.mp3", face: "./face_david_angry.jpg", emotion: "determined" },
       narration: "少年の中で、燃え上がるものがあった。<br>恐れではなく、<b>義の怒り</b>。<br>そして彼はサウル王の前に進み出た——「私が戦います」。"
     },
     {
@@ -3496,7 +3606,7 @@
         { img: "./saul_king.png", side: "left", scale: 1.0, label: "サウル王", emotion: "shocked" },
         { img: "./young_david.png", side: "right", scale: 0.9, label: "ダビデ", emotion: "determined" }
       ],
-      dialogue: { speaker: "young_david", name: "ダビデ", text: "王よ、これを着けては歩けません。私は、私の方法で戦います。", emotion: "determined" },
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "王よ、これを着けては歩けません。私は、私の方法で戦います。", voice: "./voice_07_david.mp3", face: "./face_david_determined.jpg", emotion: "determined" },
       narration: "王の鎧は重すぎた。<br>ダビデは脱ぎ捨て、ただ <b>羊飼いの杖</b> と<br><b>石投げ</b>だけを手に取った。"
     },
     {
@@ -3506,7 +3616,7 @@
       characters: [
         { img: "./young_david.png", side: "center", scale: 0.95, label: "ダビデ", emotion: "gentle" }
       ],
-      dialogue: { speaker: "young_david", name: "ダビデ", text: "主よ、この石に…あなたの力を込めたまえ。", emotion: "gentle" },
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "主よ、この石に…あなたの力を込めたまえ。", voice: "./voice_08_david.mp3", face: "./face_david_pray.jpg", emotion: "pray" },
       narration: "谷川のほとりで、<br>ダビデは <b class='red'>五つの滑らかな石</b> を選び取った。<br><span class='small'>石投げに込めるは、信仰の力。</span>"
     },
     {
@@ -3517,7 +3627,7 @@
         { img: "./young_david.png", side: "left", scale: 0.85, label: "ダビデ", emotion: "determined" },
         { img: "./goliath.png", side: "right", scale: 1.1, label: "ゴリアテ", emotion: "angry" }
       ],
-      dialogue: { speaker: "young_david", name: "ダビデ", text: "汝は剣と槍をもて来たれども、我は万軍の主の名によりて行く！戦いは主のものなり！", emotion: "determined" },
+      dialogue: { speaker: "young_david", name: "ダビデ", text: "汝は剣と槍をもて来たれども、我は万軍の主の名によりて行く！戦いは主のものなり！", voice: "./voice_09_david.mp3", face: "./face_david_battle.jpg", emotion: "determined" },
       narration: "エラの谷の真ん中で、<br>少年と巨人は向かい合った。<br>巨人は嘲笑い、少年は確信していた——<br><b>戦いは主のもの</b> だと。"
     },
     {
@@ -3535,6 +3645,7 @@
   function showStory() {
     storyIndex = 0;
     state.phase = 'story';
+    preloadAllVoices();
     renderStory();
   }
   window.showStory = showStory;
@@ -3542,10 +3653,87 @@
   let typewriterTimers = [];
   let typewriterDoneFns = [];
 
+  let currentVoiceAudio = null;
+
   function clearTypewriters() {
     typewriterTimers.forEach(t => clearTimeout(t));
     typewriterTimers = [];
     typewriterDoneFns = [];
+    // Stop any playing voice
+    if (currentVoiceAudio) {
+      currentVoiceAudio.pause();
+      currentVoiceAudio.currentTime = 0;
+      currentVoiceAudio = null;
+    }
+  }
+
+  // Cache for voice durations (loaded once)
+  const voiceDurations = {};
+
+  // Pre-load voice metadata to know duration
+  function preloadVoiceDuration(src) {
+    return new Promise((resolve) => {
+      if (voiceDurations[src] !== undefined) { resolve(voiceDurations[src]); return; }
+      const audio = new Audio();
+      audio.preload = 'metadata';
+      audio.addEventListener('loadedmetadata', () => {
+        voiceDurations[src] = audio.duration || 0;
+        resolve(audio.duration || 0);
+      });
+      audio.addEventListener('error', () => {
+        voiceDurations[src] = 0;
+        resolve(0);
+      });
+      audio.src = src;
+    });
+  }
+
+  // Returns duration of voice in seconds (0 if file missing/error)
+  // For sync purposes: returns cached duration if available, or 0
+  function playVoice(src) {
+    try {
+      // Stop existing voice
+      if (currentVoiceAudio) {
+        currentVoiceAudio.pause();
+        currentVoiceAudio.currentTime = 0;
+      }
+      const audio = new Audio(src);
+      audio.volume = 0.85;
+      audio.addEventListener('loadedmetadata', () => {
+        voiceDurations[src] = audio.duration || 0;
+      });
+      audio.addEventListener('error', () => {
+        voiceDurations[src] = 0;
+      });
+      currentVoiceAudio = audio;
+      const promise = audio.play();
+      if (promise && promise.catch) promise.catch(err => {
+        console.log('[voice] could not play:', src, err.message);
+      });
+      // Return cached duration (0 if not yet loaded - default to estimated 3s)
+      const cached = voiceDurations[src];
+      if (cached === undefined) {
+        // First time playing this file - estimate 3s
+        return 3.0;
+      }
+      return cached;
+    } catch (e) {
+      console.log('[voice] error:', e.message);
+      return 0;
+    }
+  }
+  window.playVoice = playVoice;
+
+  // Pre-load all known voice durations on first story view
+  let voiceDurationsLoaded = false;
+  function preloadAllVoices() {
+    if (voiceDurationsLoaded) return;
+    voiceDurationsLoaded = true;
+    const voicePaths = new Set();
+    storyPages.forEach(p => {
+      if (p.dialogue && p.dialogue.voice) voicePaths.add(p.dialogue.voice);
+    });
+    voicePaths.forEach(src => preloadVoiceDuration(src));
   }
 
   function typewriterEffect(elementId, fullHTML, charDelay = 60, startDelay = 0, pitch = 1.0, onDone = null) {
@@ -3644,26 +3832,22 @@
       });
     }
 
-    // Dialogue HTML
+    // Dialogue HTML + Cut-in face
     let dialogueHTML = '';
+    let cutinHTML = '';
     if (page.dialogue && page.dialogue.text) {
-      const speakerImgMap = {
-        young_david: './young_david.png',
-        david: './david.png',
-        goliath: './goliath.png',
-        saul_king: './saul_king.png',
-        saul: './saul.png',
-        jesse: './jesse.png',
-        eliab: './eliab.png'
-      };
-      const speakerImg = speakerImgMap[page.dialogue.speaker] || './young_david.png';
       const isPlayerSide = ['young_david', 'david'].includes(page.dialogue.speaker);
-      const portraitSide = isPlayerSide ? 'left' : 'right';
-      dialogueHTML = `
-        <div class="story-dialogue ${portraitSide}">
-          <div class="story-portrait">
-            <img src="${speakerImg}" alt="${page.dialogue.name}">
+      const cutinSide = isPlayerSide ? 'left' : 'right';
+      const faceImg = page.dialogue.face || './young_david.png';
+      cutinHTML = `
+        <div class="story-cutin ${cutinSide}" id="storyCutin">
+          <div class="story-cutin-frame">
+            <img src="${faceImg}" alt="${page.dialogue.name}" onerror="this.style.display='none'">
           </div>
+          <div class="story-cutin-name">${page.dialogue.name}</div>
+        </div>`;
+      dialogueHTML = `
+        <div class="story-dialogue ${cutinSide}">
           <div class="story-bubble">
             <div class="story-speaker">${page.dialogue.name}</div>
             <div class="story-line" id="dialogueLine"></div>
@@ -3681,6 +3865,7 @@
             <div class="story-title">${page.title}</div>
           </div>
           <div class="story-characters">${charsHTML}</div>
+          ${cutinHTML}
           ${dialogueHTML}
           <div class="story-narration" id="narrationText"></div>
           <div class="story-progress">${dots}</div>
@@ -3712,8 +3897,41 @@
     if (page.dialogue && page.dialogue.text) {
       const dialogueText = '「' + page.dialogue.text + '」';
       const pitch = pitchMap[page.dialogue.speaker] || 1.0;
-      const dialogueDuration = typewriterEffect('dialogueLine', dialogueText, 65, 600, pitch);
-      narrationStartDelay = (dialogueDuration || 0) + 400;
+
+      // Trigger cut-in slide-in animation (slightly delayed for drama)
+      const cutinEl = document.getElementById('storyCutin');
+      if (cutinEl) {
+        const t = setTimeout(() => {
+          cutinEl.classList.add('active');
+          if (sfx.cutinSwoosh) sfx.cutinSwoosh();
+        }, 200);
+        typewriterTimers.push(t);
+      }
+
+      // Play voice if available (and sound is on) - slight delay to sync with cut-in
+      let voiceDuration = 0;
+      if (page.dialogue.voice && sound.enabled) {
+        const tv = setTimeout(() => {
+          if (state.phase === 'story') playVoice(page.dialogue.voice);
+        }, 700);
+        typewriterTimers.push(tv);
+      }
+      // Use cached duration for sync (defaults to 3s if not loaded)
+      voiceDuration = (typeof voiceDurations !== 'undefined' && page.dialogue.voice && voiceDurations[page.dialogue.voice]) || 3.0;
+
+      // Calculate typewriter speed based on voice duration
+      // If voice exists, sync typewriter to finish around the same time
+      let charDelay = 65;
+      if (voiceDuration > 0) {
+        // Sync: aim to finish typing slightly before voice ends
+        const visibleChars = dialogueText.replace(/<[^>]*>/g, '').length;
+        const targetTypingTime = voiceDuration * 1000 * 0.85; // 85% of voice duration
+        charDelay = Math.max(25, Math.min(80, targetTypingTime / visibleChars));
+      }
+
+      const dialogueDuration = typewriterEffect('dialogueLine', dialogueText, charDelay, 800, pitch);
+      // Wait for voice to finish (or typewriter, whichever is longer)
+      narrationStartDelay = Math.max(dialogueDuration || 0, voiceDuration * 1000 + 800) + 500;
     }
 
     // Step 2: narration typewriter
