@@ -3610,8 +3610,9 @@
     state.enemyHP = enemy.hpMax;
     state.enemyMaxHP = enemy.hpMax;
     state.hand = drawHand();
-    state.history = [];  // サウロ戦用に履歴リセット (後でマージしたければ別プロパティに退避)
+    state.history = [];  // サウロ戦用に履歴リセット
     state.phase = 'battle';
+    scoreSubmitted = false;  // サウロ戦後に再度ランキング登録できるようリセット
     if (sound.enabled) music.playTrack('battle');
     render();
 
